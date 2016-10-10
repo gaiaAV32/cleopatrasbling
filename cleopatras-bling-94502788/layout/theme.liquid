@@ -1,0 +1,135 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9 ]><html class="ie9 no-js"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="no-js"> <!--<![endif]-->  
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    {% if template == 'index' %}
+    <title>{{ shop.name }} | {{ page_title }}</title>
+    {% elsif template == '404' %}
+    <title>Page Not Found | {{ shop.name }}</title>
+    {% else %}
+    <title>{{ page_title }} | {{ shop.name }}</title>
+    {% endif %}
+    {% if page_description %}
+    <meta name="description" content="{{ page_description }}" />
+    {% endif %}
+    <link rel="canonical" href="{{ canonical_url }}" />
+
+  	<link href="https://fonts.googleapis.com/css?family=Cardo:400i|IM+Fell+French+Canon:400|Meie+Script|Neuton:200|Pinyon+Script|Suranna" rel="stylesheet">
+    <meta name="viewport" content="device-width, initial-scale=1.0" />  
+    {{ content_for_header }}
+    {{ 'style.css' | asset_url | stylesheet_tag }}
+    {{ "option_selection.js" | shopify_asset_url | script_tag }}
+    {{ "shopify_common.js" | shopify_asset_url | script_tag }}
+    {{ "customer_area.js"  | shopify_asset_url | script_tag }}
+    {{ '//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js' | script_tag }}
+    {{ 'responsiveslides.min.js'     | asset_url | script_tag }}
+
+    <script>
+      $(function() {
+        $(".rslides").responsiveSlides();
+      });
+    </script>
+
+
+</head>
+
+<body id="{{ page_title | handle }}" class="template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}" >
+    
+  <div class="header-toolbar">
+
+    <div class="container clearfix">
+        <div class="header-search col-6 hideMobile">
+             <form action="/search" method="get" class="search-form" role="search">
+                <input name="q" type="text" class="search-field" placeholder="Search store..."/>
+                <input type="submit" class="btn " value="Search" />
+              </form>          
+        </div> 
+
+        <div class="col-6">
+          <img src="{{ 'menuburger.svg' | asset_url }}" class="mob-col-3" id="menuDropDown">
+        </div>
+
+        <div class="cart-info col-6 mob-col-6">
+          <h4 class="rightAligned">
+            <a href="/cart">{{ cart.item_count }} {{ cart.item_count | pluralize: 'item', 'items' }} ({{ cart.total_price | money }})
+            </a>
+          </h4>
+        </div>
+
+    </div>
+  </div>
+
+    <div class="container clearfix">
+
+            <header>
+
+        <!-- logo  -->  
+        <div class="store-title col-12">
+            <a href="/">
+              <img class="col-3 mob-col-9 centered paddedTop" src="{{ 'Logos_CleopatrasBling.svg' | asset_url }}" alt="{{ shop.description | escape }}"></a>
+        </div>
+        <!-- end logo -->
+
+        <!-- nav -->
+        <div class="col-12">
+                <nav class="topNav hideMobile">
+                    <ul>
+                     {% for link in linklists.main-menu.links %}
+                     <li class="navItem col-2 mob-col-12" {% if link.active %}class="current"{% endif %}>
+                      <h4 class="hideMobile toggle">
+                        <a href="{{ link.url }}">
+
+                            {{ link.title }}
+
+                        </a></h4>
+                     </li>
+                     {% endfor %}
+                    </ul>
+                </nav>
+        </div>
+        <!-- nav -->
+            </header>
+
+            <div class="content col-12">
+
+            {{ content_for_layout }}
+            
+        </div>
+    </div>
+
+    <!-- footer -->
+    <div class="site-footer col-12">
+     <div class="container clearfix">
+        <ul>
+          {% for link in linklists.footer.links %}
+          <li class="col-4 mob-col-12">
+            <h4>
+            <a href="{{ link.url }}">{{ link.title }}</a>
+            </h4>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+     </div>
+
+     <!-- footer -->
+
+    {{ 'shop.js'  | asset_url | script_tag }}
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+        $('#menuDropDown').click(function() {
+            $('h4.toggle').toggleClass('hideMobile');
+        });
+    });
+    </script>
+
+
+
+</body>
+</html>

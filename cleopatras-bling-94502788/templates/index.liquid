@@ -1,0 +1,170 @@
+
+<ul class="rslides">
+  <li>
+    <img <img src="{{ 'slide-image-1.jpg' | asset_url }}" alt="{{ shop.description | escape }}">
+  </li>
+  <li>
+    <img <img src="{{ 'slide-image-2.jpg' | asset_url }}" alt="{{ shop.description | escape }}">
+  </li>
+  <li>
+    <img <img src="{{ 'slide-image-3.jpg' | asset_url }}" alt="{{ shop.description | escape }}">
+  </li>
+  <li>
+    <img <img src="{{ 'slide-image-4.jpg' | asset_url }}" alt="{{ shop.description | escape }}">
+  </li>
+  <li>
+    <img <img src="{{ 'slide-image-5.jpg' | asset_url }}" alt="{{ shop.description | escape }}">
+  </li>
+
+</ul>
+
+<div class="spacer20px col-12">&nbsp;</div>
+
+<div class="col-6 mob-col-9 centered">
+  <img src="{{ 'Pattern1.svg' | asset_url }}">
+</div>
+
+<div class="col-9 mob-col-12 centered">
+  <h3 class="centerAligned script">
+    “I learned about the sacred art of self decoration with the monarch butterflies perched atop my head, lightning bugs as my night jewelry, and emerald-green frogs as bracelets.”
+  </h3>
+  <h4 class="centerAligned">
+    ― Clarissa Pinkola Estés, Women Who Run With the Wolves: <br> Myths and Stories of the Wild Woman Archetype
+  </h3>
+</div>
+
+
+<div class="spacer90px col-12">&nbsp;</div>
+
+{% paginate collections by 5 %}
+
+<div class="clearfix">
+  {% if collections.size > 0 %}
+      <h2 class="centerAligned">Collections</h2>
+      {% for collection in collections %}
+            <div class="product homepageBlocks mob-col-12 left {% cycle '','','','last' %}">
+              <div class="product-thumb">
+                <a href="{{ collection.url  }}">
+                {% if collection.image %}
+                  {{ collection.image.src | collection_img_url: 'medium' | img_tag: collection_title }}
+                    {% else %}
+                {{ collection.products.first.featured_image | product_img_url: 'medium' | img_tag: collection_title }}
+                    {% endif %}              
+                </a>
+              </div>
+              <div class="product-title">
+              	<h4 class="centerAligned">
+                	<a href="{{ collection.url}}">
+                    {{ collection.title }}
+                  	</a>
+                </h4>
+              </div>
+            </div>
+      {% endfor %}
+    {% else %}
+      <p>You have no collections!</p>
+    {% endif %}
+</div>
+
+<div class="spacer90px col-12">&nbsp;</div>
+
+
+<div class="col-9 mob-col-12 centered">
+  <img src="{{ 'Pattern2.svg' | asset_url }}">
+</div>
+
+<div class="spacer90px col-12">&nbsp;</div>
+
+
+
+<div class="colorBg Green">
+  
+  <div class="col-6 mob-col-12">
+    <a href="/pages/meet-cleopatra">
+      <img src="{{ 'About_Cleo_homepage.jpg' | asset_url }}">
+    </a>
+  </div>
+
+  <div class="col-6 mob-col-12">
+    <a href="/pages/meet-cleopatra">
+        <div class="padded">
+            <h2>Meet Cleopatra
+            </h2>
+            <h3>Meet the Maker
+            </h3>
+        </div>
+    </a>
+  </div>
+
+</div>
+
+<div class="spacer60px col-12">&nbsp;</div>
+
+
+<div class="col-9 mob-col-12 centered">
+  <img src="{{ 'Pattern3.svg' | asset_url }}">
+</div>
+
+<div class="spacer60px col-12">&nbsp;</div>
+
+<!-- SnapWidget -->
+  <div class="col-12 mob-col-12">
+    <a href="/pages/meet-cleopatra">
+      <div class="padded">
+         <h2 class="centerAligned">Follow Cleopatra on Instagram</h2>
+      </div>
+    </a>
+<!-- SnapWidget -->
+<script src="https://snapwidget.com/js/snapwidget.js"></script>
+<iframe src="https://snapwidget.com/embed/code/180568" class="snapwidget-widget" allowTransparency="true" frameborder="0" scrolling="no" style="border:none; overflow:hidden; width:100%; "></iframe>
+  </div>
+
+
+<!-- 
+{% paginate articles by 4 %}
+
+<div class="clearfix">
+  {% if article.size > 0 %}
+      <h2 class="centerAligned">article</h2>
+      {% for blog in article %}
+            <div class="product homepageBlocks left {% cycle '','','','last' %}">
+              <div class="product-thumb">
+                <a href="{{ collection.url  }}">
+                {% if article.image %}
+                  {{ article.image.src | article_img_url: 'medium' | img_tag: article_title }}
+                    {% else %}
+                {{ article.products.first.featured_image | product_img_url: 'medium' | img_tag: collection_title }}
+                    {% endif %}              
+                </a>
+              </div>
+              <div class="product-title">
+                <a href="{{ collection.url}}">
+                    {{ article.title }}
+                  </a>
+              </div>
+            </div>
+      {% endfor %}
+    {% else %}
+      <p>You have no article!</p>
+    {% endif %}
+</div>
+
+
+{% endpaginate %} -->
+
+
+{% if paginate.pages > 1 %}
+  <div class="col-12">
+    <div class="pagination">
+      {{ paginate | default_pagination }}
+    </div>
+  </div>
+{% endif %}
+
+{% endpaginate %}
+
+<script type="text/javascript">
+  $(function() {
+    $(".rslides").responsiveSlides();
+  });
+</script>

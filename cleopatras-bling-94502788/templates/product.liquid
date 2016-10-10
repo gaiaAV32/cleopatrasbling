@@ -1,0 +1,113 @@
+<div class="product-page">
+
+      <div class="product-details hideDesktop col-6 mob-col-12">
+        
+        <h2 class="product-header titles">{{ product.title }}</h2>
+        <div class="product-desc rte">{{ product.description}}</div>
+        <div class="price-field"></div>
+        <form action="/cart/add" method="post" class="product-form">
+          <div class="product-variants">
+            <select id="product-select" name="id">
+              {% for variant in product.variants %}
+              <option value="{{ variant.id }}">{{ variant.price | money }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <input type="submit" name="add" value="Purchase" class="btn" />
+        </form>
+
+      </div>
+
+      <div class="product-images scroll col-6 mob-col-12">
+
+        <div class="paddedSide product-scrolled-image">
+            <img src="{{ product.featured_image.src | product_img_url: 'grande' }}" alt="{{ product.featured_image.alt | escape }}" />
+        </div>
+
+        <div class="product-scrolled-image">
+          {% for image in product.images | offset:1 %}       
+          <div class="product-img {% cycle '','','last' %}">
+              <img src="{{ image.src | product_img_url: 'grande' }}" alt="{{ image.alt | escape }}" class="notZoomedImg"/>
+              <!-- 
+              <img src="{{ image.src | product_img_url: 'original' }}" alt="{{ image.alt | escape }}" class="zoomedImg"/> -->
+          </div>
+          {% endfor %}
+        </div>
+
+      </div>
+      <!-- 
+      <div class="product-zoomed-image">
+          <img src="{{ image.src | product_img_url: 'original' }}" alt="{{ image.alt | escape }}" id="zoomedImg"/>
+      </div> -->
+
+      <div class="product-details col-6 mob-col-12">
+        <div class="hideMobile">
+          <h2 class="product-header titles">{{ product.title }}</h2>
+          <div class="product-desc rte">{{ product.description}}</div>
+          <div class="price-field col-6"></div>
+          <form action="/cart/add" method="post" class="product-form">
+            <div class="product-variants col-6 mob-col-12">
+              <div class="selector-wrapper clearfix">
+                <select id="product-select" name="id" class="right">
+                  {% for variant in product.variants %}
+
+                      {% if product.variants.size == 1 and product.variants.title contains 'Default' %}
+                        {% assign hide_default_title = true %}
+                      {% endif %}
+
+                  <option value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money }}</option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+            <input type="submit" name="add" value="Purchase" class="btn col-12" />
+          </form>
+        </div>
+        
+        <div class="spacer60px col-12">&nbsp;</div>
+
+        {% if collection %}
+        <div class="product-nav clearfix">
+           {% if collection.previous_product %}
+           <div class="left">{{ '&larr; Previous Product' | link_to: collection.previous_product }}</div>
+           {% endif %}
+           {% if collection.next_product %}
+           <div class="right">{{ 'Next Product &rarr;' | link_to: collection.next_product }}</div>
+           {% endif %}
+         </div>       
+         {% endif %}
+
+      </div>
+  
+</div>
+
+<script type="text/javascript">
+
+  // <![CDATA[  
+var selectCallback = function(variant, selector) {
+  if (variant && variant.available == true) {
+    // selected a valid variant
+    jQuery('.purchase').removeClass('disabled').removeAttr('disabled'); // remove unavailable class from add-to-cart button, and re-enable button
+    jQuery('.price-field').html(Shopify.formatMoney(variant.price, "{{shop.money_with_currency_format}}"));  // update price field
+  } else {
+    // variant doesn't exist
+    jQuery('.purchase').addClass('disabled').attr('disabled', 'disabled');      // set add-to-cart button to unavailable class and disable button
+    var message = variant ? "Sold Out" : "Unavailable";    
+    jQuery('.price-field').text(message); // update price-field message
+  }
+};
+
+</script>
+<!-- 
+<script type="text/javascript">
+var zoomedImg = document.getElementById('notZoomedImg');
+var showZoom = document.getElementsByClassName("product-zoomed-image");
+
+$(".notZoomedImg").click(function(){
+    $(".zoomedImg").toggleClass("show");
+    console.log('ciao');
+});
+
+</script> -->
+
+  

@@ -1,0 +1,17 @@
+<div class="blog-article single-article">
+  <h1 class="blog-title titles">{{ article.title }}</h1>
+  <div class="blog-data">
+    {{ article.published_at | date: '%b %d, %Y' }}
+  </div>
+  <div class="blog-content rte">
+    {{ article.content }}
+  </div>
+  {% if article.tags.size > 0 %}
+  <div class="blog-tags">
+    tags:
+    {% for tag in article.tags %} 
+    <a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a>{% unless forloop.last %}, {% endunless %}
+    {% endfor %}
+  </div>  
+  {% endif %}
+</div>

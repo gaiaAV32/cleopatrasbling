@@ -1,0 +1,22 @@
+<div class="productTile col-3 mob-col-12 {% cycle '','','','last' %}">
+  
+    <div class="product-thumb margined">
+    <a href="{{ product.url | within: collection }}">
+      <img src="{{ product.featured_image.src | product_img_url: 'medium' }}" alt="{{ product.featured_image.alt | escape }}" />
+    </a>
+  </div>
+  <div class="product-title margined">
+    <h3 class="product">
+      <a href="{{ product.url | within: collection }}">
+          {{ product.title }}
+        </a>
+    </h3>
+  </div>
+  <div class="product-price">
+    <h4 class="grey">
+    {% if product.price_varies %}From{% endif %}
+    {{ product.price | money }}
+    </h4>
+  </div>
+  
+</div>

@@ -1,0 +1,90 @@
+<h1 class="col-12 titles">Your Cart</h1>
+
+{% if cart.item_count > 0 %}
+
+  <form action="/cart" method="post">
+  
+  <table class="cart-table col-12">
+    <thead>
+      <tr>
+        <th>
+          &nbsp;
+        </th>
+        <th>
+          <h4 class="leftAligned grey">
+            Product</h4>
+        </th>
+        <th>
+          <h4 class="leftAligned grey">
+            Price</h4>
+        <th>
+          <h4 class="leftAligned grey">
+          Quantity</h4>
+        </th>
+        <th>
+          <h4 class="leftAligned grey">
+          Total</h4>
+        </th>
+        <th>
+          &nbsp;
+        </th>
+      </tr>
+    </thead>
+
+        <tbody>
+            {% for item in cart.items %}    
+            <tr>
+              <td>
+                <div class="item-thumb col-6 centered">
+                  <a href="{{ item.product.url }}"> 
+                    <img src="{{ item.product.featured_image.src | product_img_url: 'small' }}" alt="{{ item.title | escape }}" />
+                  </a>
+                </div>
+              </td>
+              <td>
+                <div class="item-title">
+                  <h3 class="leftAligned">
+                    <a href="{{ item.product.url | within: collections.all }}">{{ item.title }}</a>
+                  </h3>
+                </div>
+              </td>
+              <td>
+                <h3 class="leftAligned">{{ item.price | money }}</h3>
+              </td>
+              <td>
+                <input type="number" name="updates[]" id="updates_{{ item.id }}" value="{{ item.quantity }}" class="item-qty" />
+              </td>
+              <td>
+                <h3 class="leftAligned">{{ item.line_price | money }}
+                </h3>
+              </td>
+              <td>
+                <a class="btn" href="/cart/change?line={{ forloop.index }}&quantity=0">Remove</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+    </table>
+    
+    <div class="cart-options col-12">
+      <h3 class="centerAligned">Subtotal: {{ cart.total_price | money }}</h3>
+        <div class="col-12 centerAligned">
+          <input type="submit" name="update" value="Update cart" class="btn " />
+          or
+          <input type="submit" name="checkout" value="Check out" class="btn"   />    
+          {% if additional_checkout_buttons %}
+          <p class="additional-checkout-buttons col-2 centered">
+            {{ content_for_additional_checkout_buttons }}
+          </p>
+          {% endif %}
+        </div>    
+    </div>
+
+  </form>
+
+
+{% else %}
+
+You don't have any items in your cart!
+
+{% endif %}
